@@ -1,0 +1,30 @@
+[
+    {
+        "model": "shops.shop",
+        "pk": 1,
+        "fields": {
+            "name": "Bob's Electronics",
+            "slug": "bobs-electronics",
+            "description": "Your one-stop shop for all electronics needs",
+            "category": "Electronics",
+            "rating": 4.8,
+            "review_count": 254,
+            "is_active": true,
+            "created_at": "2024-02-20T00:00:00Z"
+        }
+    },
+    {
+        "model": "shops.shop",
+        "pk": 2,
+        "fields": {
+            "name": "Mary's Boutique",
+            "slug": "marys-boutique",
+            "description": "Fashion for every occasion",
+            "category": "Fashion",
+            "rating": 4.6,
+            "review_count": 187,
+            "is_active": true,
+            "created_at": "2024-02-20T00:00:00Z"
+        }
+    }
+] 
