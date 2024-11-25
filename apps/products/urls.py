@@ -1,9 +1,11 @@
-from django.urls import path
+# backend/apps/products/urls.py
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from . import views
+from .views import ProductViewSet
 
 router = DefaultRouter()
-router.register(r'', views.ProductViewSet, basename='product')
+router.register(r'products', ProductViewSet)
 
-app_name = 'products'
-urlpatterns = router.urls
+urlpatterns = [
+    path('', include(router.urls)),
+]

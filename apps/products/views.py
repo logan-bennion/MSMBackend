@@ -1,6 +1,5 @@
-from rest_framework import viewsets, permissions
-from rest_framework.permissions import AllowAny
-from rest_framework.decorators import action
+# backend/apps/products/views.py
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer
@@ -8,28 +7,14 @@ from .serializers import ProductSerializer
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-    permission_classes = [AllowAny]
 
-    @action(detail=True, methods=['post'])
-    def favorite(self, request, pk=None):
-        product = self.get_object()
-        user = request.user
-        if product in user.favorites.all():
-            user.favorites.remove(product)
-            return Response({'status': 'removed from favorites'})
-        else:
-            user.favorites.add(product)
-            return Response({'status': 'added to favorites'})
-
-    def get_queryset(self):
-        queryset = Product.objects.all()
-        category = self.request.query_params.get('category', None)
-        search = self.request.query_params.get('search', None)
-        
-        if category:
-            queryset = queryset.filter(category=category)
-        if search:
-            queryset = queryset.filter(name__icontains=search)
-        
-        return queryset
+    def retrieve(self, request, pk=None):
+        try:
+            product = Product.objects.get(pk=pk)
+            serializer = self.get_serializer(product)
+            return Response(serializer.data)
+        except Product.DoesNotExist:
+            return Response(
+                {"error": f"Product with ID {pk} not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )

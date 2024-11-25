@@ -6,6 +6,18 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True  # Only use this for development!
+CORS_ALLOW_CREDENTIALS = True
+
+# For production, use this instead of CORS_ALLOW_ALL_ORIGINS:
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:19006",
+    "http://localhost:8000",
+    "http://127.0.0.1:19006",
+    "http://127.0.0.1:8000",
+ ]
+
 # Get environment variables
 def env(key, default=None):
     return os.environ.get(key, default)
@@ -37,18 +49,6 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
 }
-
-# CORS settings
-CORS_ALLOW_ALL_ORIGINS = True  # Only use this for development!
-CORS_ALLOW_CREDENTIALS = True
-
-# For production, use this instead of CORS_ALLOW_ALL_ORIGINS:
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:19006",
-#     "http://127.0.0.1:19006",
-# ]
-
-CORS_ALLOW_CREDENTIALS = True
 
 # Media files configuration
 MEDIA_URL = '/media/'
@@ -94,9 +94,9 @@ INSTALLED_APPS = [
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE = [
+        'corsheaders.middleware.CorsMiddleware',
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
-        'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
